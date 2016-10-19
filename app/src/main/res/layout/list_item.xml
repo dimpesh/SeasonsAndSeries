@@ -53,15 +53,15 @@
 
             <ImageView
                 android:id="@+id/row_delete"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/card_icon_size"
+                android:layout_height="@dimen/card_icon_size"
                 android:layout_margin="@dimen/card_icon_margin"
                 android:src="@android:drawable/ic_menu_share" />
 
             <ImageView
                 android:id="@+id/row_add"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/card_icon_size"
+                android:layout_height="@dimen/card_icon_size"
                 android:layout_margin="@dimen/card_icon_margin"
                 android:src="@android:drawable/ic_dialog_info" />
         </LinearLayout>
