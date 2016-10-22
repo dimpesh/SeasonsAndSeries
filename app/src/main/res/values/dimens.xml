@@ -14,4 +14,14 @@
     <dimen name="card_subtitle_text_size">18sp</dimen>
     <dimen name="card_icon_margin">10dp</dimen>
     <dimen name="card_icon_size">30dp</dimen>
+    <dimen name="vote_text_size">32sp</dimen>
+    <dimen name="details_vote_margin">10dp</dimen>
+    <dimen name="details_rating_margin">10dp</dimen>
+    <dimen name="dim_10dp">10dp</dimen>
+    <dimen name="rating_text_size">28sp</dimen>
+    <dimen name="vote_count_text_size">28sp</dimen>
+    <dimen name="details_description_margin">20dp</dimen>
+    <dimen name="description_head_text_size">32sp</dimen>
+    <dimen name="overview_desc_text_size">24sp</dimen>
+    <dimen name="overview_description_margin_top">20dp</dimen>
 </resources>

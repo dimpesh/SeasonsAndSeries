@@ -1,12 +1,15 @@
 package dimpesh.com.seasonsandseries.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by DIMPESH : ${month}
  */
 
-public class DataObject {
+public class DataObject implements Parcelable {
 
 
     public DataObject() {
@@ -42,6 +45,32 @@ public class DataObject {
     @SerializedName("genre_ids")
     public List<Genre_ids> genre_ids;
 */
+
+    protected DataObject(Parcel in) {
+        poster_path = in.readString();
+        popularity = in.readDouble();
+        id = in.readInt();
+        backdrop_path = in.readString();
+        vote_average = in.readDouble();
+        overview = in.readString();
+        first_air_date = in.readString();
+        original_language = in.readString();
+        vote_count = in.readInt();
+        name = in.readString();
+        original_name = in.readString();
+    }
+
+    public static final Creator<DataObject> CREATOR = new Creator<DataObject>() {
+        @Override
+        public DataObject createFromParcel(Parcel in) {
+            return new DataObject(in);
+        }
+
+        @Override
+        public DataObject[] newArray(int size) {
+            return new DataObject[size];
+        }
+    };
 
     public double getPopularity() {
         return popularity;
@@ -133,5 +162,24 @@ public class DataObject {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(poster_path);
+        dest.writeDouble(popularity);
+        dest.writeInt(id);
+        dest.writeString(backdrop_path);
+        dest.writeDouble(vote_average);
+        dest.writeString(overview);
+        dest.writeString(first_air_date);
+        dest.writeString(original_language);
+        dest.writeInt(vote_count);
+        dest.writeString(name);
+        dest.writeString(original_name);
+    }
 }
 
