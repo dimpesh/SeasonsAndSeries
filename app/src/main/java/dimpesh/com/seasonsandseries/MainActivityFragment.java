@@ -52,6 +52,7 @@ public class MainActivityFragment extends Fragment
     private static final String STATE_ACTIVATED_POSITION="activated_position";
 
     int position=0;
+    int total_pages=1;
 
     /**
      * The fragment's current callback object, which is notified of list item
@@ -154,12 +155,11 @@ public class MainActivityFragment extends Fragment
 
             try {
                 JSONObject obj1 = new JSONObject(response);
+                total_pages=obj1.getInt("total_pages");
                 JSONArray arr = obj1.getJSONArray("results");
-
+                Log.v(TAG,String.valueOf(total_pages)+" pages ");
                 List<DataObject> postsList = Arrays.asList(gson.fromJson(arr.toString(), DataObject[].class));
                 posts.addAll(postsList);
-                Log.v(TAG,"AList size :"+posts.size());
-                Log.i(TAG, posts + "");
                 Log.i(TAG, posts.size() + " posts loaded.");
 
                 adapter.notifyDataSetChanged();
