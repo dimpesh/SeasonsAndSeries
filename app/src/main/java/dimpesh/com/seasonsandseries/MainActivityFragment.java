@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import dimpesh.com.seasonsandseries.adapter.EndlessScrollListener;
 import dimpesh.com.seasonsandseries.adapter.RecyclerAdapter;
 import dimpesh.com.seasonsandseries.adapter.RecyclerItemClickListener;
 import dimpesh.com.seasonsandseries.model.DataObject;
@@ -37,22 +39,23 @@ import dimpesh.com.seasonsandseries.model.DataObject;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment
-{
+public class MainActivityFragment extends Fragment {
 
     private static final String TAG = MainActivityFragment.class.getSimpleName();
     private RequestQueue requestQueue;
     private Gson gson;
-    ArrayList<DataObject> posts=new ArrayList<DataObject>();
+    ArrayList<DataObject> posts = new ArrayList<DataObject>();
     RecyclerAdapter adapter;
-
+    ProgressBar pg;
     RecyclerView rv;
     private static final String strUrl = "http://api.themoviedb.org/3/tv/top_rated?api_key=";
 
-    private static final String STATE_ACTIVATED_POSITION="activated_position";
-
-    int position=0;
-    int total_pages=1;
+    private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    // Store a member variable for the listener
+    private EndlessScrollListener scrollListener;
+    int position = 0;
+    int current_page = 1;
+    int total_pages = 2;
 
     /**
      * The fragment's current callback object, which is notified of list item
@@ -64,6 +67,7 @@ public class MainActivityFragment extends Fragment
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = GridView.INVALID_POSITION;
+
     /**
      * A callback interface that all activities containing this fragment must
      * implement. This mechanism allows activities to be notified of item
@@ -95,9 +99,6 @@ public class MainActivityFragment extends Fragment
     DataObject movieClicked;
 
 
-
-
-
     public MainActivityFragment() {
     }
 
@@ -117,8 +118,9 @@ public class MainActivityFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+        pg = (ProgressBar) view.findViewById(R.id.pg);
 
-        fetchData();
+        fetchData(current_page);
 
         rv = (RecyclerView) view.findViewById(R.id.recycler_view);
         adapter = new RecyclerAdapter(getActivity(), posts);
@@ -132,18 +134,41 @@ public class MainActivityFragment extends Fragment
                 new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        movieClicked=posts.get(position);
+                        movieClicked = posts.get(position);
                         mCallbacks.onItemSelected(movieClicked);
                     }
                 }));
 
+
+        /**
+         * Endless ScrollListener
+         */
+        scrollListener = new EndlessScrollListener(mLinearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                loadNextDataFromApi();
+            }
+        };
+
+        // Adds the scroll listener to RecyclerView
+        rv.addOnScrollListener(scrollListener);
         return view;
     }
 
-    private void fetchData() {
+    private void loadNextDataFromApi() {
+        current_page++;
+        fetchData(current_page);
+    }
+
+    private void fetchData(int page) {
+        pg.setVisibility(View.VISIBLE);
+
+        String fetchUrl = strUrl + "&page=" + page;
 
         StringRequest stringRequest = new StringRequest(
-                Request.Method.GET, strUrl
+                Request.Method.GET, fetchUrl
                 , onPostLoaded, onPostError);
         requestQueue.add(stringRequest);
 
@@ -155,13 +180,17 @@ public class MainActivityFragment extends Fragment
 
             try {
                 JSONObject obj1 = new JSONObject(response);
-                total_pages=obj1.getInt("total_pages");
+                total_pages = obj1.getInt("total_pages");
                 JSONArray arr = obj1.getJSONArray("results");
-                Log.v(TAG,String.valueOf(total_pages)+" pages ");
+                Log.v(TAG, String.valueOf(total_pages) + " pages ");
                 List<DataObject> postsList = Arrays.asList(gson.fromJson(arr.toString(), DataObject[].class));
                 posts.addAll(postsList);
                 Log.i(TAG, posts.size() + " posts loaded.");
-
+                for(int i=0;i<posts.size();i++)
+                {
+                    Log.v(TAG,"Name :"+i+" "+posts.get(i).getName());
+                }
+                pg.setVisibility(View.INVISIBLE);
                 adapter.notifyDataSetChanged();
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -241,7 +270,6 @@ public class MainActivityFragment extends Fragment
 
         mActivatedPosition = position;
     }
-
 
 
 }
