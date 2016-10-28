@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="20dp">
+    >
 
     <!--
             Creating AppBar Layout
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:background="?colorPrimary"
-        android:fitsSystemWindows="true"
+
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
@@ -81,6 +81,7 @@
                 android:layout_marginBottom="@dimen/card_margin_top"
                 android:layout_marginLeft="@dimen/card_margin_top"
                 android:layout_marginRight="@dimen/card_margin_top"
+                android:elevation="@dimen/dim_5dp"
                 android:layout_marginTop="@dimen/dim_10dp"
                 android:background="@android:color/white">
 
@@ -113,27 +114,44 @@
                             android:textSize="@dimen/vote_text_size"
                             android:textStyle="bold|italic" />
 
+                        <android.support.v7.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dim_10dp"
+                            app:cardBackgroundColor="@android:color/holo_green_dark"
+                            android:layout_margin="@dimen/details_rating_margin"
+                            android:elevation="@dimen/dim_10dp"
+                            android:background="@android:color/holo_green_dark"
+                            app:cardCornerRadius="@dimen/dim_10dp">
                         <TextView
                             android:id="@+id/details_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="@dimen/details_rating_margin"
                             android:background="@android:color/holo_green_dark"
                             android:gravity="center"
-                            android:padding="10dp"
+                            android:padding="@dimen/dim_5dp"
                             android:text="@string/rating"
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/rating_text_size"
                             android:textStyle="italic|bold" />
-
+                        </android.support.v7.widget.CardView>
                         <TextView
+                            android:id="@+id/detail_votes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="@dimen/details_vote_margin"
                             android:text="@string/vote_count"
                             android:textSize="@dimen/vote_count_text_size"
                             android:textStyle="bold"
-
+                            />
+                        <TextView
+                            android:id="@+id/details_popularity"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/details_vote_margin"
+                            android:text="@string/popularity"
+                            android:textSize="@dimen/vote_count_text_size"
+                            android:textStyle="bold"
                             />
 
                     </LinearLayout>
@@ -144,6 +162,8 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:elevation="@dimen/dim_5dp"
+                app:cardCornerRadius="@dimen/dim_5dp"
                 android:layout_margin="@dimen/details_description_margin"
                 android:background="@android:color/white">
 

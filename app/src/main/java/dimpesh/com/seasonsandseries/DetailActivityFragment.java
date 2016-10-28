@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class DetailActivityFragment extends Fragment {
     private DataObject mRecieved;
     ImageView collapsing_image;
     ImageView thumbnail;
+    TextView vote,rating,popularity,date_air;
 
     TextView overview_text;
     CollapsingToolbarLayout cl;
@@ -38,15 +40,36 @@ public class DetailActivityFragment extends Fragment {
         Log.v(TAG,mRecieved.getName());
         cl = (CollapsingToolbarLayout)view.findViewById(R.id.collapsing_toolbar_layout);
         cl.setTitle(mRecieved.getName());
+        cl.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
+        cl.setExpandedTitleColor(getResources().getColor(android.R.color.white));
+        cl.setCollapsedTitleGravity(Gravity.LEFT|Gravity.CENTER);
+
         collapsing_image=(ImageView)view.findViewById(R.id.details_collapsing_image);
         thumbnail=(ImageView)view.findViewById(R.id.details_thumbnail);
-        Picasso.with(getActivity()).load("http://image.tmdb.org/t/p/w185/"+mRecieved.getBackdrop_path()).error(R.drawable.img_placeholder).
+
+        // Collapsing Image
+        Picasso.with(getActivity()).load("http://image.tmdb.org/t/p/w500/"+mRecieved.getBackdrop_path()).error(R.drawable.img_placeholder).
                 placeholder(R.drawable.img_placeholder).into(collapsing_image);
+
+        // Icon Image...
         Picasso.with(getActivity()).load("http://image.tmdb.org/t/p/w185/"+mRecieved.getPoster_path()).error(R.drawable.img_placeholder).
                 placeholder(R.drawable.img_placeholder).into(thumbnail);
 
+        // Overview
         overview_text=(TextView)view.findViewById(R.id.details_overview);
+        rating=(TextView)view.findViewById(R.id.details_rating);
+        vote=(TextView)view.findViewById(R.id.detail_votes);
+        popularity=(TextView)view.findViewById(R.id.details_popularity);
+        date_air=(TextView)view.findViewById(R.id.details_release_date);
+
         overview_text.setText(mRecieved.getOverview());
+        rating.setText(mRecieved.getVote_average()+"");
+        vote.setText(mRecieved.getVote_count()+"");
+        popularity.setText(mRecieved.getPopularity()+"");
+        date_air.setText(mRecieved.getFirst_air_date());
+
+
+        // Date set
         return view;
     }
     @Override

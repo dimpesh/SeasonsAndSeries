@@ -48,7 +48,7 @@ public class MainActivityFragment extends Fragment {
     RecyclerAdapter adapter;
     ProgressBar pg;
     RecyclerView rv;
-    private static final String strUrl = "http://api.themoviedb.org/3/tv/top_rated?api_key=";
+    private static final String strUrl = "http://api.themoviedb.org/3/tv/popular?api_key=";
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     // Store a member variable for the listener

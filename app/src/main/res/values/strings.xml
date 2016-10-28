@@ -7,6 +7,7 @@
     <string name="rating">7.85</string>
     <string name="release_date">00-00-0000</string>
     <string name="overview_title">Overview</string>
-    <string name="sample_overview">Demo text fro testin...</string>
+    <string name="sample_overview">Demo text for testing...</string>
     <string name="item_click">Item Cilck</string>
+    <string name="popularity">34,256</string>
 </resources>
