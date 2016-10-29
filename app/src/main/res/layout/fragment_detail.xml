@@ -221,6 +221,35 @@
 
             </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:elevation="@dimen/dim_5dp"
+                android:layout_margin="@dimen/details_trailer_card_margin"
+                app:cardCornerRadius="@dimen/dim_5dp"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/details_cast_head"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_weight="0"
+                        android:text="@string/cast_head"
+                        android:textSize="@dimen/description_head_text_size" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/details_cast_recyclerview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
