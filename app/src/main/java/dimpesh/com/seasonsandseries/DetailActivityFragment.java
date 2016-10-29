@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import dimpesh.com.seasonsandseries.adapter.RecyclerCreditAdapter;
 import dimpesh.com.seasonsandseries.adapter.RecyclerItemClickListener;
 import dimpesh.com.seasonsandseries.adapter.RecyclerTrailerAdapter;
 import dimpesh.com.seasonsandseries.model.Credits;
@@ -51,6 +52,7 @@ public class DetailActivityFragment extends Fragment {
     private Gson gson;
     private RequestQueue requestCreditQueue;
     private Gson gsonCredit;
+    Credits credits=new Credits();
 
     private DataObject mRecieved;
     ImageView collapsing_image;
@@ -59,11 +61,11 @@ public class DetailActivityFragment extends Fragment {
     ArrayList<TrailerObject> posts = new ArrayList<TrailerObject>();
     RecyclerTrailerAdapter adapter;
     RecyclerView rvTrailer;
-
+    RecyclerCreditAdapter adapterCredit;
+   RecyclerView rvCredit;
     TextView overview_text;
     CollapsingToolbarLayout cl;
     TrailerObject trailerClicked;
-
     public DetailActivityFragment() {
     }
 
@@ -110,10 +112,6 @@ public class DetailActivityFragment extends Fragment {
         rvTrailer = (RecyclerView) view.findViewById(R.id.details_trailer_recyclerview);
         adapter = new RecyclerTrailerAdapter(getActivity(), posts);
         rvTrailer.setAdapter(adapter);
-/*
-        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
-        mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-*/
         GridLayoutManager gvManager=new GridLayoutManager(getActivity(),1);
         gvManager.setOrientation(GridLayoutManager.HORIZONTAL);
 
@@ -129,7 +127,26 @@ public class DetailActivityFragment extends Fragment {
                     }
                 }));
 
-        // TODO : handle empty view of trailers and List of tv shows...
+
+
+        rvCredit = (RecyclerView) view.findViewById(R.id.details_cast_recyclerview);
+
+        GridLayoutManager gvManagerCredit=new GridLayoutManager(getActivity(),1);
+        gvManagerCredit.setOrientation(GridLayoutManager.HORIZONTAL);
+
+/*
+        adapterCredit = new RecyclerCreditAdapter(getActivity(),credits);
+        rvCredit.setAdapter(adapterCredit);
+*/
+
+//        rvTrailer.setLayoutManager(mLinearLayoutManager);
+        rvCredit.setLayoutManager(gvManagerCredit);
+        rvCredit.setItemAnimator(new DefaultItemAnimator());// if not written then too this will be default
+
+
+
+
+        // TODO : handle empty view of trailers, Credits and List of tv shows...
         // Date set
         return view;
     }
@@ -217,10 +234,32 @@ public class DetailActivityFragment extends Fragment {
                 JSONObject obj2= obj1.getJSONObject("credits");
 
 //                CreditObject cr =new CreditObject();
-                Credits cr=new Credits();
-                        cr=gson.fromJson(obj2+"", Credits.class);
-                Log.i(TAG, cr.getCast(0).getName());
-                adapter.notifyDataSetChanged();
+
+                  credits= gson.fromJson(obj2+"", Credits.class);
+
+/*
+                int n=credits.getCastSize();
+                Log.v(TAG,"Total "+n+" Cast");
+                for(int i=0;i<n;i++)
+                {
+                    Log.v(TAG,(i+1)+". "+credits.getCast(i).getName());
+                }
+
+*/
+/*
+                adapterCredit=new RecyclerCreditAdapter(getActivity(),credits);
+                rvCredit.setAdapter(adapterCredit);
+*/
+/*
+                adapterCredit.notifyDataSetChanged();
+*/
+
+
+        adapterCredit = new RecyclerCreditAdapter(getActivity(),credits);
+        rvCredit.setAdapter(adapterCredit);
+
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

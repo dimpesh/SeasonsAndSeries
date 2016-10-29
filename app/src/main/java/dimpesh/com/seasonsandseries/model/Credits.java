@@ -158,4 +158,13 @@ public class Credits
     public void setCrew(List<Crew> crew) {
         this.crew = crew;
     }
+
+
+    public int getCastSize()
+    {
+        if (cast!=null)
+        return cast.size();
+        else
+            return 0;
+    }
 }

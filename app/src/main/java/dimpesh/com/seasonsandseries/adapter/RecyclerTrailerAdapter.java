@@ -26,7 +26,7 @@ import dimpesh.com.seasonsandseries.model.TrailerObject;
 
 public class RecyclerTrailerAdapter extends RecyclerView.Adapter<RecyclerTrailerAdapter.MyViewHolder> {
 
-    private static final String TAG = RecyclerAdapter.class.getSimpleName();
+    private static final String TAG = RecyclerTrailerAdapter.class.getSimpleName();
     ArrayList<TrailerObject> mData = new ArrayList<TrailerObject>();
     private LayoutInflater mInflater;
     Context mContext;
