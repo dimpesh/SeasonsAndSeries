@@ -30,4 +30,6 @@
     <dimen name="trailer_card_margin">10dp</dimen>
     <dimen name="details_trailer_card_margin">5dp</dimen>
     <dimen name="details_overview_padding">10dp</dimen>
+    <dimen name="cast_margin">5dp</dimen>
+    <dimen name="cast_char_name_text_size">18sp</dimen>
 </resources>

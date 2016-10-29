@@ -14,4 +14,5 @@
     <string name="trailer_title">Trailer Title</string>
     <string name="trailer_type">Type</string>
     <string name="eng_us">eng | us</string>
+    <string name="cast_name">Cast Name</string>
 </resources>
