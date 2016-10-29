@@ -26,4 +26,8 @@
     <dimen name="overview_description_margin_top">20dp</dimen>
     <dimen name="dim_5dp">5dp</dimen>
     <dimen name="elevation_overview">5dp</dimen>
+    <dimen name="trailer_title_textsize">16sp</dimen>
+    <dimen name="trailer_card_margin">10dp</dimen>
+    <dimen name="details_trailer_card_margin">5dp</dimen>
+    <dimen name="details_overview_padding">10dp</dimen>
 </resources>

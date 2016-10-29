@@ -1,19 +1,44 @@
 package dimpesh.com.seasonsandseries;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import dimpesh.com.seasonsandseries.adapter.RecyclerItemClickListener;
+import dimpesh.com.seasonsandseries.adapter.RecyclerTrailerAdapter;
+import dimpesh.com.seasonsandseries.model.Credits;
 import dimpesh.com.seasonsandseries.model.DataObject;
+import dimpesh.com.seasonsandseries.model.TrailerObject;
+import dimpesh.com.seasonsandseries.utils.Constants;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -22,13 +47,22 @@ public class DetailActivityFragment extends Fragment {
 
 
     public static final String TAG = DetailActivityFragment.class.getSimpleName();
+    private RequestQueue requestQueue;
+    private Gson gson;
+    private RequestQueue requestCreditQueue;
+    private Gson gsonCredit;
+
     private DataObject mRecieved;
     ImageView collapsing_image;
     ImageView thumbnail;
     TextView vote,rating,popularity,date_air;
+    ArrayList<TrailerObject> posts = new ArrayList<TrailerObject>();
+    RecyclerTrailerAdapter adapter;
+    RecyclerView rvTrailer;
 
     TextView overview_text;
     CollapsingToolbarLayout cl;
+    TrailerObject trailerClicked;
 
     public DetailActivityFragment() {
     }
@@ -38,11 +72,12 @@ public class DetailActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.fragment_detail, container, false);
         Log.v(TAG,mRecieved.getName());
+        fetchTrailer(mRecieved.getId());
+        fetchCredit(mRecieved.getId());
         cl = (CollapsingToolbarLayout)view.findViewById(R.id.collapsing_toolbar_layout);
         cl.setTitle(mRecieved.getName());
         cl.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
-        cl.setExpandedTitleColor(getResources().getColor(android.R.color.white));
-        cl.setCollapsedTitleGravity(Gravity.LEFT|Gravity.CENTER);
+        cl.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
         collapsing_image=(ImageView)view.findViewById(R.id.details_collapsing_image);
         thumbnail=(ImageView)view.findViewById(R.id.details_thumbnail);
@@ -68,7 +103,33 @@ public class DetailActivityFragment extends Fragment {
         popularity.setText(mRecieved.getPopularity()+"");
         date_air.setText(mRecieved.getFirst_air_date());
 
+        /**
+         * Recycler view for Trailers
+         */
 
+        rvTrailer = (RecyclerView) view.findViewById(R.id.details_trailer_recyclerview);
+        adapter = new RecyclerTrailerAdapter(getActivity(), posts);
+        rvTrailer.setAdapter(adapter);
+/*
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+*/
+        GridLayoutManager gvManager=new GridLayoutManager(getActivity(),1);
+        gvManager.setOrientation(GridLayoutManager.HORIZONTAL);
+
+//        rvTrailer.setLayoutManager(mLinearLayoutManager);
+        rvTrailer.setLayoutManager(gvManager);
+        rvTrailer.setItemAnimator(new DefaultItemAnimator());// if not written then too this will be default
+        rvTrailer.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(),
+                new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        trailerClicked = posts.get(position);
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" +trailerClicked.getKey())));
+                    }
+                }));
+
+        // TODO : handle empty view of trailers and List of tv shows...
         // Date set
         return view;
     }
@@ -84,7 +145,95 @@ public class DetailActivityFragment extends Fragment {
         } else {
             mRecieved = getActivity().getIntent().getParcelableExtra("show");
         }
+
+        requestQueue = Volley.newRequestQueue(getActivity());
+        requestCreditQueue = Volley.newRequestQueue(getActivity());
+
+        //    Building GSON for fetching data
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gson = gsonBuilder.create();
+        gsonCredit = gsonBuilder.create();
+
+
     }
+
+    public void fetchTrailer(int id)
+    {
+        String strUrl="https://api.themoviedb.org/3/tv/"+id+"/videos?api_key="+ Constants.APIKEY_KEY;
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET, strUrl
+                , onPostLoaded, onPostError);
+        requestQueue.add(stringRequest);
+
+    }
+    private final Response.Listener<String> onPostLoaded = new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+
+            try {
+                JSONObject obj1 = new JSONObject(response);
+                JSONArray arr = obj1.getJSONArray("results");
+                List<TrailerObject> postsList = Arrays.asList(gson.fromJson(arr.toString(), TrailerObject[].class));
+                posts.addAll(postsList);
+                Log.i(TAG, posts.size() + " posts loaded.");
+                for(int i=0;i<posts.size();i++)
+                {
+                    Log.v(TAG,"Name :"+i+" "+posts.get(i).getName());
+                }
+                adapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
+    private final Response.ErrorListener onPostError = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.v(TAG, error.toString());
+        }
+    };
+
+
+
+    public void fetchCredit(int id)
+    {
+        String trailerUrl="https://api.themoviedb.org/3/tv/"+id+"?api_key="+Constants.APIKEY_KEY+"&append_to_response=credits";
+        StringRequest stringRequest = new StringRequest(
+                Request.Method.GET, trailerUrl
+                , onPostTrailerLoaded, onPostTrailerError);
+        requestQueue.add(stringRequest);
+
+    }
+    private final Response.Listener<String> onPostTrailerLoaded = new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+
+            try {
+                Log.i(TAG,"response :"+response);
+                JSONObject obj1 = new JSONObject(response);
+
+                JSONObject obj2= obj1.getJSONObject("credits");
+
+//                CreditObject cr =new CreditObject();
+                Credits cr=new Credits();
+                        cr=gson.fromJson(obj2+"", Credits.class);
+                Log.i(TAG, cr.getCast(0).getName());
+                adapter.notifyDataSetChanged();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
+    private final Response.ErrorListener onPostTrailerError = new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+            Log.v(TAG, error.toString());
+        }
+    };
 
 
 }

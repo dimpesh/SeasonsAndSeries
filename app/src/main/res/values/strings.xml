@@ -10,4 +10,8 @@
     <string name="sample_overview">Demo text for testing...</string>
     <string name="item_click">Item Cilck</string>
     <string name="popularity">34,256</string>
+    <string name="trailer_head">Trailers</string>
+    <string name="trailer_title">Trailer Title</string>
+    <string name="trailer_type">Type</string>
+    <string name="eng_us">eng | us</string>
 </resources>
