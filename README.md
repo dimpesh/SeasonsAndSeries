@@ -7,3 +7,20 @@ App for TV seasons and shows(helps users to get info about top , poular and cate
 #### Added Multiple ScrollView is Single Fragment.
 #### Added Infinite Scroll/Endless Scroll in Recycler View.
 
+<br>
+<br>
+
+### Screenshots Sample
+
+<br>
+#### Sample 1 : Main Fragment showing Tv Shows and Series
+<br>
+<a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqLVB4bi1xMDdtcVE"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqLVB4bi1xMDdtcVE" width="300" height="500" title="Click for the larger version." /></a>
+
+<br><br>
+
+#### Sample 2  
+<br>
+####(1) Detail Fragment showing Tv Show Detail
+
+<a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqeEtjckloTnVFR1k"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqeEtjckloTnVFR1k" width="300" height="500" title="Click for the larger version." /></a>
