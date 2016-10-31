@@ -30,8 +30,3 @@ App for TV seasons and shows(helps users to get info about top , poular and cate
 <a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqRUxuaEk4NVczZVU"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqRUxuaEk4NVczZVU" width="800" height="500" title="Click for the larger version." /></a>
 
 <br>
-#### Sample Tablet UI
-<a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqUzRDQ09IUnhRZ2c"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqUzRDQ09IUnhRZ2c" width="800" height="500" title="Click for the larger version." /></a>
-<br>
-#### Sample Tablet UI
-<a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqcVZiRGN2aFVxZ2M"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqcVZiRGN2aFVxZ2M" width="800" height="500" title="Click for the larger version." /></a>
