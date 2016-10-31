@@ -19,10 +19,19 @@ App for TV seasons and shows(helps users to get info about top , poular and cate
 
 <br><br>
 
-#### Sample 2  
-<br>
-#### Detail Fragment displaying Tv Show Detail(With Collapsing Toolbar)
+#### Sample 2 : Detail Fragment displaying Tv Show Detail(With Collapsing Toolbar)
 
 <a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqeEtjckloTnVFR1k"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqeEtjckloTnVFR1k" width="280" height="480" title="Click for the larger version." /></a>
 <a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqVHF6LUxxTTlnTms"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqVHF6LUxxTTlnTms" width="280" height="480" title="Click for the larger version." /></a>
 <a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqenE0SnlhZzU2bGs"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqenE0SnlhZzU2bGs" width="280" height="480" title="Click for the larger version." /></a>
+
+<br>
+#### Sample Tablet UI
+<a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqRUxuaEk4NVczZVU"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqRUxuaEk4NVczZVU" width="800" height="500" title="Click for the larger version." /></a>
+
+<br>
+#### Sample Tablet UI
+<a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqUzRDQ09IUnhRZ2c"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqUzRDQ09IUnhRZ2c" width="800" height="500" title="Click for the larger version." /></a>
+<br>
+#### Sample Tablet UI
+<a href="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqcVZiRGN2aFVxZ2M"><img src="https://drive.google.com/uc?export=view&id=0B7g_-2YXAZJqcVZiRGN2aFVxZ2M" width="800" height="500" title="Click for the larger version." /></a>
