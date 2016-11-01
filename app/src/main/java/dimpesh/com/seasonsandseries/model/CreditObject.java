@@ -14,10 +14,10 @@ public class CreditObject
     @SerializedName("backdrop_path")
     public String backdrop_path;
     @SerializedName("created_by")
-/*
+
     public List<Created_by> created_by;
     @SerializedName("episode_run_time")
-    public List<Episode_run_time> episode_run_time;
+/*    public List<Episode_run_time> episode_run_time;
     @SerializedName("first_air_date")
 */
     public String first_air_date;

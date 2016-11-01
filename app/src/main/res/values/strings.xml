@@ -16,4 +16,14 @@
     <string name="eng_us">eng | us</string>
     <string name="cast_name">Cast Name</string>
     <string name="cast_head">Cast</string>
+    <string name="action_sortby">Sort by</string>
+    <string name="action_sortby_popular">Sort by Popularity</string>
+    <string name="action_sortby_rating">Sort by Rating</string>
+    <string name="action_vote_count">Set Vote Count</string>
+    <string name="pref_key_sort">sort</string>
+    <string name="pref_key_vote_count">vote_count</string>
+    <string name="pref_key_sort_popular">popular</string>
+    <string name="pref_key_sort_top_rating">top_rated</string>
+    <string name="vote_cant_be_empty">Vote Count cant be empty</string>
+    <string name="vote_changed_success">Vote Count Updated !!!</string>
 </resources>

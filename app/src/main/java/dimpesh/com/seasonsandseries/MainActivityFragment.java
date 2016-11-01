@@ -1,18 +1,28 @@
 package dimpesh.com.seasonsandseries;
 
 import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -35,6 +45,9 @@ import dimpesh.com.seasonsandseries.adapter.EndlessScrollListener;
 import dimpesh.com.seasonsandseries.adapter.RecyclerAdapter;
 import dimpesh.com.seasonsandseries.adapter.RecyclerItemClickListener;
 import dimpesh.com.seasonsandseries.model.DataObject;
+import dimpesh.com.seasonsandseries.utils.Constants;
+
+import static android.content.Context.MODE_WORLD_WRITEABLE;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -47,8 +60,14 @@ public class MainActivityFragment extends Fragment {
     ArrayList<DataObject> posts = new ArrayList<DataObject>();
     RecyclerAdapter adapter;
     ProgressBar pg;
+    SharedPreferences pref;
+    SharedPreferences.Editor editorPref;
+    Boolean isChanged=false;
     RecyclerView rv;
-    private static final String strUrl = "http://api.themoviedb.org/3/tv/popular?api_key=";
+    String category;
+    int vote_count;
+    String API_KEY="?api_key=";
+    private String strUrl = "http://api.themoviedb.org/3/tv/";
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     // Store a member variable for the listener
@@ -56,7 +75,6 @@ public class MainActivityFragment extends Fragment {
     int position = 0;
     int current_page = 1;
     int total_pages = 2;
-
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
@@ -105,6 +123,10 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//      to enable options Menu.
+//        setHasOptionsMenu(true);
+
         requestQueue = Volley.newRequestQueue(getActivity());
 
         //    Building GSON for fetching data
@@ -119,9 +141,10 @@ public class MainActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         pg = (ProgressBar) view.findViewById(R.id.pg);
-
+        pref = getActivity().getSharedPreferences("settings", MODE_WORLD_WRITEABLE);
+        category=pref.getString(getString(R.string.pref_key_sort),"popular");
+        vote_count=pref.getInt(getString(R.string.pref_key_vote_count),50);
         fetchData(current_page);
-
         rv = (RecyclerView) view.findViewById(R.id.recycler_view);
         adapter = new RecyclerAdapter(getActivity(), posts);
         rv.setAdapter(adapter);
@@ -164,8 +187,8 @@ public class MainActivityFragment extends Fragment {
 
     private void fetchData(int page) {
         pg.setVisibility(View.VISIBLE);
-
-        String fetchUrl = strUrl + "&page=" + page;
+        Log.v(TAG,"fetch Data Called");
+        String fetchUrl = strUrl+category+API_KEY+ Constants.APIKEY_KEY + "&page=" + page;
 
         StringRequest stringRequest = new StringRequest(
                 Request.Method.GET, fetchUrl
@@ -272,4 +295,74 @@ public class MainActivityFragment extends Fragment {
     }
 
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_main,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        if(id==R.id.action_sortby_popularity)
+        {
+            Log.v(TAG,"menu clicked");
+            if(category.equals("top_rated"))
+            {
+                editorPref = pref.edit();
+                editorPref.putString(getString(R.string.pref_key_sort),"popular");
+                category=pref.getString(getString(R.string.pref_key_sort),"popular");
+                editorPref.commit();
+            }
+            return true;
+        }
+        if (id==R.id.action_sortby_rating)
+        {
+            Log.v(TAG,"menu clicked");
+            if(category.equals("popular"))
+            {
+                editorPref = pref.edit();
+                editorPref.putString(getString(R.string.pref_key_sort),getString(R.string.pref_key_sort_top_rating));
+                editorPref.commit();
+                category=pref.getString(getString(R.string.pref_key_sort),"top_rated");
+            }
+            return true;
+
+        }
+
+        if (id == R.id.action_vote_avg) {
+            Log.v(TAG,"menu clicked");
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+            alertDialog.setTitle("Change Vote Count");
+            final EditText passEdt = new EditText(getActivity());
+            String num=String.valueOf(pref.getInt(getString(R.string.pref_key_vote_count),150));
+            passEdt.setText(num);
+            passEdt.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            LinearLayout ll = new LinearLayout(getActivity());
+            ll.setOrientation(LinearLayout.VERTICAL);
+            ll.addView(passEdt);
+            alertDialog.setView(ll);
+            alertDialog.setCancelable(true);
+            alertDialog.setPositiveButton("CHANGE", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    if (passEdt.getText().toString().length() == 0) {
+                        Toast.makeText(getActivity(), getString(R.string.vote_cant_be_empty), Toast.LENGTH_SHORT).show();
+                    } else {
+                        editorPref = pref.edit();
+                        editorPref.putInt(getString(R.string.pref_key_vote_count), Integer.parseInt(passEdt.getText().toString()));
+                        editorPref.commit();
+                        Toast.makeText(getActivity(), getString(R.string.vote_changed_success), Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            });
+
+            AlertDialog alert = alertDialog.create();
+            alert.show();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
