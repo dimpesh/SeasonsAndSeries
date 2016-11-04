@@ -27,5 +27,5 @@
     <string name="vote_cant_be_empty">Vote Count cant be empty</string>
     <string name="vote_changed_success">Vote Count Updated !!!</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="empty_text">No Data Available...Please make sure you are connected to the Internet...</string>
+    <string name="empty_text">No Data Available...Please connect to the Internet...restart the app</string>
 </resources>

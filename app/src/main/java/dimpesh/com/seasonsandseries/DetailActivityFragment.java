@@ -82,16 +82,19 @@ public class DetailActivityFragment extends Fragment {
         fetchTrailer(mRecieved.getId());
         fetchCredit(mRecieved.getId());
         cl = (CollapsingToolbarLayout)view.findViewById(R.id.collapsing_toolbar_layout);
+
         cl.setTitle(mRecieved.getName());
+
         cl.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
         cl.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
+//        cl.setTitleEnabled(false);
         collapsing_image=(ImageView)view.findViewById(R.id.details_collapsing_image);
         thumbnail=(ImageView)view.findViewById(R.id.details_thumbnail);
 
         // Collapsing Image
-        Picasso.with(getActivity()).load("http://image.tmdb.org/t/p/w500/"+mRecieved.getBackdrop_path()).error(R.drawable.img_placeholder).
-                placeholder(R.drawable.img_placeholder).into(collapsing_image);
+        Picasso.with(getActivity()).load("http://image.tmdb.org/t/p/w185/"+mRecieved.getBackdrop_path()).error(R.drawable.img_placeholder).
+                centerCrop().resize(300,250).placeholder(R.drawable.img_placeholder).into(collapsing_image);
 
         // Icon Image...
         Picasso.with(getActivity()).load("http://image.tmdb.org/t/p/w185/"+mRecieved.getPoster_path()).error(R.drawable.img_placeholder).
