@@ -44,6 +44,7 @@
                 android:textSize="@dimen/card_subtitle_text_size"
                 android:textStyle="italic" />
         </LinearLayout>
+<!--    Commented List Item Buttons...
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -64,6 +65,7 @@
                 android:layout_margin="@dimen/card_icon_margin"
                 android:src="@android:drawable/ic_dialog_info" />
         </LinearLayout>
+-->
 
     </LinearLayout>
 

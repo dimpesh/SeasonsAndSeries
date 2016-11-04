@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -68,6 +69,7 @@ public class MainActivityFragment extends Fragment {
     int vote_count;
     String API_KEY="?api_key=";
     private String strUrl = "http://api.themoviedb.org/3/tv/";
+    TextView emp_view;
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     // Store a member variable for the listener
@@ -146,6 +148,7 @@ public class MainActivityFragment extends Fragment {
         vote_count=pref.getInt(getString(R.string.pref_key_vote_count),50);
         fetchData(current_page);
         rv = (RecyclerView) view.findViewById(R.id.recycler_view);
+        emp_view=(TextView)view.findViewById(R.id.tv_no_data);
         adapter = new RecyclerAdapter(getActivity(), posts);
         rv.setAdapter(adapter);
         LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getActivity());
@@ -177,6 +180,17 @@ public class MainActivityFragment extends Fragment {
 
         // Adds the scroll listener to RecyclerView
         rv.addOnScrollListener(scrollListener);
+
+        if(posts.isEmpty())
+        {
+            emp_view.setVisibility(View.VISIBLE);
+            rv.setVisibility(View.GONE);
+
+        }
+        else {
+            emp_view.setVisibility(View.GONE);
+            rv.setVisibility(View.VISIBLE);
+        }
         return view;
     }
 
@@ -201,6 +215,8 @@ public class MainActivityFragment extends Fragment {
         @Override
         public void onResponse(String response) {
 
+            rv.setVisibility(View.VISIBLE);
+            emp_view.setVisibility(View.GONE);
             try {
                 JSONObject obj1 = new JSONObject(response);
                 total_pages = obj1.getInt("total_pages");

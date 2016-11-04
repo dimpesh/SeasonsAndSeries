@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -21,6 +22,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
@@ -55,6 +58,7 @@ public class DetailActivityFragment extends Fragment {
     Credits credits=new Credits();
 
     private DataObject mRecieved;
+    private AdView mAdView;
     ImageView collapsing_image;
     ImageView thumbnail;
     TextView vote,rating,popularity,date_air;
@@ -65,6 +69,7 @@ public class DetailActivityFragment extends Fragment {
    RecyclerView rvCredit;
     TextView overview_text;
     CollapsingToolbarLayout cl;
+    ProgressBar pg;
     TrailerObject trailerClicked;
     public DetailActivityFragment() {
     }
@@ -98,7 +103,7 @@ public class DetailActivityFragment extends Fragment {
         vote=(TextView)view.findViewById(R.id.detail_votes);
         popularity=(TextView)view.findViewById(R.id.details_popularity);
         date_air=(TextView)view.findViewById(R.id.details_release_date);
-
+        pg=(ProgressBar)view.findViewById(R.id.detail_pg);
         overview_text.setText(mRecieved.getOverview());
         rating.setText(mRecieved.getVote_average()+"");
         vote.setText(mRecieved.getVote_count()+"");
@@ -148,6 +153,13 @@ public class DetailActivityFragment extends Fragment {
 
         // TODO : handle empty view of trailers, Credits and List of tv shows...
         // Date set
+
+        // TODO : Add Admob ID Correctly before publishing...
+        mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        pg.setVisibility(View.VISIBLE);
+
         return view;
     }
     @Override
@@ -202,6 +214,7 @@ public class DetailActivityFragment extends Fragment {
                 e.printStackTrace();
             }
 
+            pg.setVisibility(View.INVISIBLE);
         }
     };
 
@@ -209,6 +222,8 @@ public class DetailActivityFragment extends Fragment {
         @Override
         public void onErrorResponse(VolleyError error) {
             Log.v(TAG, error.toString());
+            pg.setVisibility(View.INVISIBLE);
+
         }
     };
 

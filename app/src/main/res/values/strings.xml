@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Seasons And Series</string>
+    <string name="app_name">TV Seasons</string>
     <string name="action_settings">Settings</string>
     <string name="card_subtitle">Subtitle</string>
     <string name="title_activity_detail">Details</string>
@@ -26,4 +26,6 @@
     <string name="pref_key_sort_top_rating">top_rated</string>
     <string name="vote_cant_be_empty">Vote Count cant be empty</string>
     <string name="vote_changed_success">Vote Count Updated !!!</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="empty_text">No Data Available...Please make sure you are connected to the Internet...</string>
 </resources>

@@ -11,6 +11,6 @@ public class Constants
     public static final String CATEGORY_TOPRATED="top_rated";
 
 
-    public static final String APIKEY_KEY="";
+    public static final String APIKEY_KEY="api_key";
 
 }
